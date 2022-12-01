@@ -10,7 +10,7 @@ on:
       URL:
         required: false
         type: string
-        default: https://django-learn.k8s.jslay.net
+        default: https://django-learn.localhost
     secrets:
       TWITCH_CLIENT_ID:
         required: true
@@ -34,7 +34,7 @@ jobs:
         run: |
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           TAG=$(echo $VERSION | sed -e 's/^v//')
-          helm upgrade --install --wait django-learn --namespace django-learn \
+          helm upgrade --install --wait django-learn \
             --set image.repository=ghcr.io/jslay88/django_learn \
             --set image.tag=$TAG \
             --set image.pullPolicy=Always \
@@ -47,6 +47,6 @@ jobs:
             --set ingress.tls[0].secretName=django-learn-tls \
             --set ingress.tls[0].hosts[0]=${{ inputs.URL }} \
             --set-string ingress.annotations."acme\.cert-manager\.io/http01-edit-in-place"=true \
-            --set ingress.annotations."cert-manager\.io/cluster-issuer"=letsencrypt \
+            --set ingress.annotations."cert-manager\.io/cluster-issuer"=self-signed \
             --set postgresql.enabled=true \
             helm/django-learn

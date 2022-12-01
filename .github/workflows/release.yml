@@ -24,7 +24,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       ENVIRONMENT: production
-      URL: django-learn.k8s.jslay.net
+      URL: django-learn.localhost
     secrets:
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
